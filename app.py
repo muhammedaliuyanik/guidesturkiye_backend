@@ -107,5 +107,6 @@ def get_recommendations():
     return jsonify(recommended_locations[['location_name', 'rating', 'comment_count', 'tag1', 'tag2', 'tag3', 'about']].to_dict(orient='records'))
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    # Update the parameters with your certificate and key file paths
+    app.run(host='0.0.0.0', port=5000, ssl_context=('~/certs/server.crt', '~/certs/server.key'))
