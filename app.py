@@ -27,6 +27,13 @@ locations = data.to_dict(orient='records')
 # Define the directory where images are stored (this can be on your local file system or in a directory in your Flask app)
 image_directory = os.path.join(app.static_folder, 'images')
 
+@app.route('/test', methods=['GET'])
+def test():
+    """
+    Test
+    """
+    return jsonify({"message": "Hello, World!"})
+
 
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
