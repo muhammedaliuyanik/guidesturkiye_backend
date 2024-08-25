@@ -109,4 +109,4 @@ def get_recommendations():
 
 if __name__ == "__main__":
     # Update the parameters with your certificate and key file paths
-    app.run(host='0.0.0.0', port=5000, ssl_context=('~/certs/server.crt', '~/certs/server.key'))
+    app.run(host='0.0.0.0', port=5000, ssl_context=('/home/ubuntu/certs/server.crt', '/home/ubuntu/certs/server.key'))
