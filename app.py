@@ -50,21 +50,22 @@ def test():
 
 @app.route('/images/<place_id>', methods=['GET'])
 def get_image(place_id):
+    image_file = f"{place_id}.png"
+    image_path = os.path.join(image_directory, image_file)
+    
     try:
-        # Resim dosya yolunu oluştur
-        image_file = f"{place_id}.png"
-        image_path = os.path.join(image_directory, image_file)
-        
-        # Dosyanın var olup olmadığını kontrol et
+        # Check if the file exists
         if not os.path.isfile(image_path):
-            abort(404)  # Eğer bulunmazsa, 404 hatası döndür
+            app.logger.error(f"Image not found at path {image_path}")
+            abort(404)  # If not found, return a 404 response
         
-        # Resim dosyasını gönder
+        # Send the image file
         return send_from_directory(image_directory, image_file)
     
     except Exception as e:
-        app.logger.error(f"Error retrieving image {place_id}: {str(e)}")
-        abort(500)  # Bir hata olursa 500 Internal Server Error döndür
+        app.logger.error(f"Error retrieving image {image_file} at path {image_path}: {e}")
+        abort(500)  # Internal server error if something goes wrong
+
 
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
