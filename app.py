@@ -42,7 +42,7 @@ def test():
 def get_image(place_id):
     try:
         # Resim dosya yolunu oluştur
-        image_file = f"{place_id}.png"
+        image_file = f"{place_id}.png"  # image_file burada sadece dosya adını içerir
         image_path = os.path.join(image_directory, image_file)
         
         # Dosyanın var olup olmadığını kontrol et
@@ -56,6 +56,7 @@ def get_image(place_id):
     except Exception as e:
         app.logger.error(f"Error retrieving image: {e}")
         abort(500)  # Internal server error if something goes wrong
+
 
 
 
