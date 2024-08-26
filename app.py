@@ -34,6 +34,22 @@ def test():
     """
     return jsonify({"message": "Hello, World!"})
 
+@app.route('/images/<place_id>', methods=['GET'])
+def get_image(place_id):
+    try:
+        # Construct the image file path
+        image_file = f"{place_id}.png"
+        image_path = os.path.join(image_directory, image_file)
+        
+        # Check if the file exists
+        if not os.path.isfile(image_path):
+            abort(404)  # If not found, return a 404 response
+        
+        # Send the image file
+        return send_from_directory(image_directory, image_file)
+    
+    except Exception as e:
+        abort(500)  # Internal server error if something goes wrong
 
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
