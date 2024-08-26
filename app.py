@@ -27,22 +27,13 @@ locations = data.to_dict(orient='records')
 # Define the directory where images are stored (this can be on your local file system or in a directory in your Flask app)
 image_directory = os.path.join(app.static_folder, 'images')
 
-@app.route('/images/<place_id>', methods=['GET'])
-def get_image(place_id):
-    try:
-        # Construct the image file path
-        image_file = f"{place_id}.png"
-        image_path = os.path.join(image_directory, image_file)
-        
-        # Check if the file exists
-        if not os.path.isfile(image_path):
-            abort(404)  # If not found, return a 404 response
-        
-        # Send the image file
-        return send_from_directory(image_directory, image_file)
-    
-    except Exception as e:
-        abort(500)  # Internal server error if something goes wrong
+@app.route('/test', methods=['GET'])
+def test():
+    """
+    Test
+    """
+    return jsonify({"message": "Hello, World!"})
+
 
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
@@ -65,6 +56,8 @@ def get_locations():
             location['imageUrl'] = None  # or skip adding this key altogether
 
     return jsonify(locations)
+
+
 
 @app.route('/getLocationsByCityName', methods=['GET'])
 def get_locations_by_city():
@@ -114,5 +107,6 @@ def get_recommendations():
     return jsonify(recommended_locations[['location_name', 'rating', 'comment_count', 'tag1', 'tag2', 'tag3', 'about']].to_dict(orient='records'))
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    # Update the parameters with your certificate and key file paths
+    app.run(host='0.0.0.0', port=5000)
