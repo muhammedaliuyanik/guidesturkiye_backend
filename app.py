@@ -6,20 +6,6 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from transformers import BertTokenizer, BertModel
 import torch
-import logging
-from logging.handlers import RotatingFileHandler
-
-if not os.path.exists('logs'):
-    os.mkdir('logs')
-
-file_handler = RotatingFileHandler('logs/guidesturkiye.log', maxBytes=10240, backupCount=10)
-file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-file_handler.setLevel(logging.INFO)
-app.logger.addHandler(file_handler)
-
-app.logger.setLevel(logging.INFO)
-app.logger.info('GuidesTurkiye startup')
-
 
 app = Flask(__name__)
 
@@ -39,7 +25,7 @@ except FileNotFoundError:
 locations = data.to_dict(orient='records')
 
 # Define the directory where images are stored (this can be on your local file system or in a directory in your Flask app)
-image_directory = "/home/ubuntu/guidesturkiye/images"
+image_directory = os.path.join(app.static_folder, 'images')
 
 @app.route('/test', methods=['GET'])    
 def test():
