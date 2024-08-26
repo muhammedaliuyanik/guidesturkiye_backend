@@ -7,6 +7,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from transformers import BertTokenizer, BertModel
 import torch
 from flask import Flask, abort, send_from_directory
+from logging.handlers import RotatingFileHandler
+import logging
 
 app = Flask(__name__)
 
@@ -63,7 +65,7 @@ def get_image(place_id):
     except Exception as e:
         app.logger.error(f"Error retrieving image {place_id}: {str(e)}")
         abort(500)  # Bir hata olursa 500 Internal Server Error döndür
-        
+
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
     """
