@@ -50,10 +50,11 @@ def test():
 
 @app.route('/images/<place_id>', methods=['GET'])
 def get_image(place_id):
-    image_file = f"{place_id}.png"
-    image_path = os.path.join(image_directory, image_file)
-    
     try:
+        # Construct the image file path
+        image_file = f"{place_id}.png"
+        image_path = os.path.join(image_directory, image_file)
+        
         # Check if the file exists
         if not os.path.isfile(image_path):
             app.logger.error(f"Image not found at path {image_path}")
@@ -63,8 +64,9 @@ def get_image(place_id):
         return send_from_directory(image_directory, image_file)
     
     except Exception as e:
-        app.logger.error(f"Error retrieving image {image_file} at path {image_path}: {e}")
+        app.logger.error(f"Error retrieving image: {e}")
         abort(500)  # Internal server error if something goes wrong
+
 
 
 @app.route('/getLocations', methods=['GET'])
