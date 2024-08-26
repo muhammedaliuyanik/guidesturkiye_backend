@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from transformers import BertTokenizer, BertModel
 import torch
+from flask import Flask, abort, send_from_directory
 
 app = Flask(__name__)
 
@@ -25,7 +26,18 @@ except FileNotFoundError:
 locations = data.to_dict(orient='records')
 
 # Define the directory where images are stored (this can be on your local file system or in a directory in your Flask app)
-image_directory = os.path.join(app.static_folder, 'images')
+image_directory = "/home/ubuntu/guidesturkiye/images"
+# Loglama işlemleri
+if not os.path.exists('logs'):
+    os.mkdir('logs')
+
+file_handler = RotatingFileHandler('logs/guidesturkiye.log', maxBytes=10240, backupCount=10)
+file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+file_handler.setLevel(logging.INFO)
+app.logger.addHandler(file_handler)
+
+app.logger.setLevel(logging.INFO)
+app.logger.info('GuidesTurkiye startup')
 
 @app.route('/test', methods=['GET'])    
 def test():
@@ -37,20 +49,21 @@ def test():
 @app.route('/images/<place_id>', methods=['GET'])
 def get_image(place_id):
     try:
-        # Construct the image file path
+        # Resim dosya yolunu oluştur
         image_file = f"{place_id}.png"
         image_path = os.path.join(image_directory, image_file)
         
-        # Check if the file exists
+        # Dosyanın var olup olmadığını kontrol et
         if not os.path.isfile(image_path):
-            abort(404)  # If not found, return a 404 response
+            abort(404)  # Eğer bulunmazsa, 404 hatası döndür
         
-        # Send the image file
+        # Resim dosyasını gönder
         return send_from_directory(image_directory, image_file)
     
     except Exception as e:
-        abort(500)  # Internal server error if something goes wrong
-
+        app.logger.error(f"Error retrieving image {place_id}: {str(e)}")
+        abort(500)  # Bir hata olursa 500 Internal Server Error döndür
+        
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
     """
