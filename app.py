@@ -12,7 +12,7 @@ import logging
 
 app = Flask(__name__)
 #create list
-saved_cities = {"city1": None, "city2": None}
+saved_cities = {"current_city": None, "destination_city": None}
 
 # Load your locations data from JSON
 data_path = os.path.join(os.getcwd(), 'data', 'places.json')
@@ -61,32 +61,32 @@ def get_image(place_id):
 #Kullanıcının beğendiği Lokasyonları seçtiği ekran için bilgi dönüşü.
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
-    city1 = saved_cities["city1"]
-    if city1:
-        # Burada city1'i kullanarak kullanıcının seçeceği lokasyonları listeliyoruz.
-        filtered_locations = data[data['city'].str.lower() == city1.lower()]
+    current_city = saved_cities["current_city"]
+    if current_city:
+        # Burada current_city'i kullanarak kullanıcının seçeceği lokasyonları listeliyoruz.
+        filtered_locations = data[data['city'].str.lower() == current_city.lower()]
         return jsonify(filtered_locations.to_dict(orient='records'))
     else:
-        return jsonify({"message": "City1 not set"}), 400
+        return jsonify({"message": "current_city not set"}), 400
 
-# city1 ve city2 parametrelerini almak için API
+# current_city ve destination_city parametrelerini almak için API
 @app.route('/getLocationsByCityName', methods=['GET'])
 def get_locations_by_city():
     global saved_cities
-    city1 = request.args.get('city1', '')
-    city2 = request.args.get('city2', '')
+    current_city = request.args.get('current_city', '')
+    destination_city = request.args.get('destination_city', '')
     
     # Alınan şehir isimlerini sakla
-    saved_cities["city1"] = city1
-    saved_cities["city2"] = city2
+    saved_cities["current_city"] = current_city
+    saved_cities["destination_city"] = destination_city
     
-    return jsonify({"message": "Cities received successfully", "city1": city1, "city2": city2})
+    return jsonify({"message": "Cities received successfully", "current_city": current_city, "destination_city": destination_city})
 
 @app.route('/getRecommendation', methods=['POST'])
 def get_recommendation():
-    city2 = saved_cities["city2"]
-    if city2:
-        # Burada city2'yi kullanarak önerileri filtreleyebilir veya başka işlemler yapabilirsiniz
+    destination_city = saved_cities["destination_city"]
+    if destination_city:
+        # Burada destination_city'yi kullanarak önerileri filtreleyebilir veya başka işlemler yapabilirsiniz
         """
         Returns a list of recommended locations based on the user's liked locations.
         Expects a JSON payload with 'liked_location_ids' and 'city_name'.
@@ -123,7 +123,7 @@ def get_recommendation():
         recommended_locations = city_data.iloc[recommended_indices]
         return jsonify(recommended_locations.to_dict(orient='records'))
     else:
-        return jsonify({"message": "City2 not set"}), 400
+        return jsonify({"message": "destination_city not set"}), 400
 
 
 if __name__ == "__main__":
