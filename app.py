@@ -94,7 +94,8 @@ def get_recommendation():
         # İstekten gelen JSON verisini alın
         request_data = request.json
         liked_location_ids = request_data.get('liked_location_ids', [])
-        city_name = request_data.get('city_name', '')
+        
+        city_name = destination_city
 
         # liked_location_ids'yi 'places.json' dosyasındaki verilerle karşılaştırın
         liked_data = data[data['place_id'].isin(liked_location_ids)]
