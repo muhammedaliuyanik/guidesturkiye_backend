@@ -91,6 +91,10 @@ def get_recommendation():
         Returns a list of recommended locations based on the user's liked locations.
         Expects a JSON payload with 'liked_location_ids' and 'city_name'.
         """
+         # Eğer liked_location_ids gönderilmediyse veya boşsa, hata döndür
+        if not data or 'liked_location_ids' not in data or not data['liked_location_ids']:
+            return jsonify({"message": "liked_location_ids is required and cannot be empty"}), 400
+        
         # İstekten gelen JSON verisini alın
         request_data = request.json
         liked_location_ids = request_data.get('liked_location_ids', [])
