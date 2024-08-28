@@ -95,14 +95,14 @@ def get_recommendation():
         # İstekten gelen JSON verisini alın
         request_data = request.json
         liked_location_ids = request_data.get('liked_location_ids', [])
-        
-        city_name = destination_city
+        app.logger.info(f"Received liked_location_ids: {liked_location_ids}")
+
 
         # liked_location_ids'yi 'places.json' dosyasındaki verilerle karşılaştırın
         liked_data = data[data['place_id'].isin(liked_location_ids)]
 
         # Şehir adına göre filtreleme yapın
-        city_data = data[data['city'].str.lower() == city_name.lower()]
+        city_data = data[data['city'].str.lower() == destination_city.lower()]
 
         if liked_data.empty or city_data.empty:
             return jsonify([]), 200
@@ -123,7 +123,9 @@ def get_recommendation():
 
         # Önerilen lokasyonlar
         recommended_locations = city_data.iloc[recommended_indices]
-        return jsonify(recommended_locations.to_dict(orient='records'))
+        #return jsonify(recommended_locations.to_dict(orient='records'))
+        return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
+
     else:
         return jsonify({"message": "destination_city not set"}), 400
 
