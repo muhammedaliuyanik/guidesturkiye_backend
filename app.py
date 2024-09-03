@@ -9,15 +9,12 @@ import torch
 from flask import Flask, abort, send_from_directory
 from logging.handlers import RotatingFileHandler
 import logging
-
 app = Flask(__name__)
 #create list
 saved_cities = {"current_city": None, "destination_city": None}
-
 # Load your locations data from JSON
 data_path = os.path.join(os.getcwd(), 'data', 'places.json')
 data = pd.read_json(data_path)
-
 # Load or initialize features
 features_file = os.path.join(os.getcwd(), 'data', 'location_features.pkl')
 try:
@@ -25,20 +22,16 @@ try:
         combined_features_dict = pickle.load(f)
 except FileNotFoundError:
     combined_features_dict = {}
-
 # Convert to a list of dictionaries for the API response
 locations = data.to_dict(orient='records')
-
 # Define the directory where images are stored
 image_directory = os.path.join(os.getcwd(), 'images')
-
 @app.route('/test', methods=['GET'])    
 def test():
     """
     Test
     """
     return jsonify({"message": "Hello, World!"})
-
 @app.route('/images/<place_id>', methods=['GET'])
 def get_image(place_id):
     try:
@@ -57,7 +50,6 @@ def get_image(place_id):
     except Exception as e:
         app.logger.error(f"Error retrieving image: {e}")
         abort(500)  # Internal server error if something goes wrong
-
 #Kullanıcının beğendiği Lokasyonları seçtiği ekran için bilgi dönüşü.
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
@@ -68,7 +60,6 @@ def get_locations():
         return jsonify(filtered_locations.to_dict(orient='records'))
     else:
         return jsonify({"message": "current_city not set"}), 400
-
 # current_city ve destination_city parametrelerini almak için API
 @app.route('/getLocationsByCityName', methods=['GET'])
 def get_locations_by_city():
@@ -81,63 +72,45 @@ def get_locations_by_city():
     saved_cities["destination_city"] = destination_city
     
     return jsonify({"message": "Cities received successfully", "current_city": current_city, "destination_city": destination_city})
-
 @app.route('/getRecommendation', methods=['POST'])
 def get_recommendation():
     destination_city = saved_cities["destination_city"]
     if destination_city:
         # Burada destination_city'yi kullanarak önerileri filtreleyebilir veya başka işlemler yapabilirsiniz
-        if not destination_city:
-            return jsonify({"message": "destination_city not set"}), 400
-
+        """
+        Returns a list of recommended locations based on the user's liked locations.
+        Expects a JSON payload with 'liked_location_ids' and 'city_name'.
+        """
+        
         # İstekten gelen JSON verisini alın
         request_data = request.json
         liked_location_ids = request_data.get('liked_location_ids', [])
         app.logger.info(f"Received liked_location_ids: {liked_location_ids}")
-
-        if liked_data.empty:
-            app.logger.error("No liked locations found.")
-            return jsonify({"message": "No liked locations found"}), 200
-
-        if city_data.empty:
-            app.logger.error("No locations found in the destination city.")
-            return jsonify({"message": "No locations found in the destination city"}), 200
-
         # liked_location_ids'yi 'places.json' dosyasındaki verilerle karşılaştırın
         liked_data = data[data['place_id'].isin(liked_location_ids)]
-
         # Şehir adına göre filtreleme yapın
         city_data = data[data['city'].str.lower() == destination_city.lower()]
-
         if liked_data.empty or city_data.empty:
             return jsonify([]), 200
-
-        liked_features = np.vstack([combined_features_dict.get(place_id) for place_id in liked_data['place_id'] if combined_features_dict.get(place_id) is not None])
-        city_features = np.vstack([combined_features_dict.get(place_id) for place_id in city_data['place_id'] if combined_features_dict.get(place_id) is not None])
-
-        if liked_features.size == 0 or city_features.size == 0:
-            app.logger.error("No valid features found for similarity calculation.")
-            return jsonify({"message": "No valid features found"}), 200
-
+        # Benzerlik hesaplamaları
+        liked_features = np.vstack([combined_features_dict[place_id] for place_id in liked_data['place_id']])
+        city_features = np.vstack([combined_features_dict[place_id] for place_id in city_data['place_id']])
         similarities = cosine_similarity(liked_features, city_features)
         similarity_scores = similarities.sum(axis=0)
-
         # En çok benzeyen 15 lokasyonu alın
         top_n = 15
         top_n_indices = np.argsort(similarity_scores)[-top_n:]
-
         # En iyi 15 öneri arasından rastgele 5 tanesini seçin
         recommended_indices = np.random.choice(top_n_indices, size=5, replace=False)
 
         # Önerilen lokasyonlar
         recommended_locations = city_data.iloc[recommended_indices]
-        #return jsonify(recommended_locations.to_dict(orient='records'))
-        return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
-
+        return jsonify(recommended_locations.to_dict(orient='records'))
+    
+        #TEST return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
     else:
         return jsonify({"message": "destination_city not set"}), 400
 
-
 if __name__ == "__main__":
     # Update the parameters with your certificate and key file paths
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
