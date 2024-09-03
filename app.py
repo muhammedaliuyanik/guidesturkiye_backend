@@ -114,7 +114,7 @@ def get_recommendation():
             "recommended_locations": recommended_locations,
             "top_rated_places": top_rated_places[:5]  # En yüksek 5 yer
         }
-        return jsonify(response)
+        return jsonify(response.to_dict(orient='records'))
     
         #TEST return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
     else:
