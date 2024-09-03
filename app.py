@@ -16,7 +16,7 @@ saved_cities = {"current_city": None, "destination_city": None}
 
 # Load your locations data from JSON
 data_path = os.path.join(os.getcwd(), 'data', 'places.json')
-data = pd.read_json(data_path)
+data = pd.read_json(data_path).to_dict(orient='records')  # .to_dict() ile bir liste elde ederiz.
 
 # Load or initialize features
 features_file = os.path.join(os.getcwd(), 'data', 'location_features.pkl')
