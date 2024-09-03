@@ -137,9 +137,19 @@ def get_recommendation():
         # En iyi 15 öneri arasından rastgele 5 tanesini seçin
         recommended_indices = np.random.choice(top_n_indices, size=5, replace=False)
 
-        # Önerilen lokasyonları döndür
-        recommended_locations = city_data.iloc[recommended_indices]
-        return jsonify(recommended_locations.to_dict(orient='records'))
+        # Önerilen lokasyonları dictionary formatına dönüştür
+        recommended_locations = city_data.iloc[recommended_indices].to_dict(orient='records')
+
+        filtered_places = [place for place in places if place['city'].lower() == destination_city.lower()]
+        top_rated_places = sorted(filtered_places, key=lambda x: float(x['rating']), reverse=True)
+
+        # JSON yanıtı için iki listeyi birleştirin
+        response = {
+            "recommended_locations": recommended_locations,
+            "top_rated_places": top_rated_places[:5]
+        }
+
+        return jsonify(response)
     else:
         # destination_city set edilmemişse hata mesajı döndür
         return jsonify({"message": "destination_city not set"}), 400
