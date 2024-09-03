@@ -103,6 +103,16 @@ def get_recommendation():
         # En iyi 15 öneri arasından rastgele 5 tanesini seçin
         recommended_indices = np.random.choice(top_n_indices, size=5, replace=False)
 
+        # destination_city'e göre places.json'dan rating'e göre sıralanmış veriyi al
+        filtered_places = [place for place in data if place['city'].lower() == destination_city.lower()]
+        top_rated_places = sorted(filtered_places, key=lambda x: float(x['rating']), reverse=True)
+
+        # JSON yanıtı için iki listeyi birleştirin
+        response = {
+            "recommended_locations": recommended_locations,
+            "top_rated_places": top_rated_places[:5]  # En yüksek 5 yer
+        }
+
         # Önerilen lokasyonlar
         recommended_locations = city_data.iloc[recommended_indices]
         return jsonify(recommended_locations.to_dict(orient='records'))
