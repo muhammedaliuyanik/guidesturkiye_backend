@@ -490,41 +490,6 @@
         "image_id": "ChIJZWCqStFcKhURzvWnvuV30tw.png"
     },
     {
-        "location_name": "Akdeniz",
-        "rating": "",
-        "comment_count": "",
-        "tag1": "Attraction",
-        "tag2": "Tourism",
-        "tag3": "Sightseeing",
-        "adress": "Mersin, Türkiye•Tips and more reviews for Akdeniz",
-        "country": "Turkiye",
-        "city": "Mersin",
-        "about": "Akdeniz, also known as the Mediterranean region of Turkey, is known for its stunning coastline, rich history, and cultural heritage.",
-        "phone_number": "",
-        "website": "https://wanderlog.com/place/details/9813657/akdeniz",
-        "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1080&photoreference=AelY_CsgeC-DFOJ6xyEd7BO-vvcurLW7Ol1gwA1dwAqM0BZGG1OSMQB8d6SzeWKUuI8q-ok1y0xb1JUrGFQMgO7kJzsn29FhUy1ef8zusT-35MINrZo0QxNVvDrU5T5WIZAxz5p_oMX0_veddhBjd2DtdeIAlepu31rEVXu5rEZ7borWsgWt&key=AIzaSyCE5YFqFaooJAn9WJSrqnojH_6kCCOzwts",
-        "place_id": "ChIJnzxHHLghFBMRQPjM_opZky4",
-        "geometry": {
-            "location": {
-                "lat": -34.5076579,
-                "lng": -58.47917409999999
-            },
-            "viewport": {
-                "northeast": {
-                    "lat": -34.50650727010727,
-                    "lng": -58.47768562010727
-                },
-                "southwest": {
-                    "lat": -34.50920692989272,
-                    "lng": -58.48038527989272
-                }
-            }
-        },
-        "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
-        "name": "Oficinas Undefined",
-        "image_id": "ChIJnzxHHLghFBMRQPjM_opZky4.png"
-    },
-    {
         "location_name": "Gilindire Cave",
         "rating": "4.8",
         "comment_count": "(4171)",
@@ -1821,7 +1786,7 @@
     },
     {
         "location_name": "Ulucami",
-        "rating": "",
+        "rating": "4.8",
         "comment_count": "",
         "tag1": "Attraction",
         "tag2": "Tourism",
@@ -1856,7 +1821,7 @@
     },
     {
         "location_name": "Adana Castle",
-        "rating": "",
+        "rating": "3.8",
         "comment_count": "",
         "tag1": "Castle",
         "tag2": "Historical landmark",
@@ -3275,41 +3240,6 @@
         "image_id": "ChIJU70-QPFDwBQRGnZkIZ6Hq4s.png"
     },
     {
-        "location_name": "Fethiye Tours & Activities",
-        "rating": "",
-        "comment_count": "",
-        "tag1": "Travel agency",
-        "tag2": "Tourism",
-        "tag3": "Sightseeing",
-        "adress": "Foça, Cumhuriyet Cd No: 28/D, 48300 Fethiye/Muğla, Türkiye•+90 555 048 08 88•Tips and more reviews for Fethiye Tours & Activities",
-        "country": "Turkey",
-        "city": "Muğla",
-        "about": "Fethiye Tours & Activities offer a wide range of experiences for travelers visiting the beautiful coastal town of Fethiye in Turkey. From boat tours to explore the stunning coastline and nearby islands, to adventurous activities like paragliding over the scenic landscapes, there's something for every type of traveler. You can also discover the region's rich history and culture with guided tours to ancient ruins and historical sites.",
-        "phone_number": "tel:+90-555-048-08-88",
-        "website": "tel:+90-555-048-08-88",
-         
-        "place_id": "ChIJjXdd44NDwBQRfOGX_gvEuuY",
-        "geometry": {
-            "location": {
-                "lat": -34.5076579,
-                "lng": -58.47917409999999
-            },
-            "viewport": {
-                "northeast": {
-                    "lat": -34.50650727010727,
-                    "lng": -58.47768562010727
-                },
-                "southwest": {
-                    "lat": -34.50920692989272,
-                    "lng": -58.48038527989272
-                }
-            }
-        },
-        "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
-        "name": "Oficinas Undefined",
-        "image_id": "ChIJjXdd44NDwBQRfOGX_gvEuuY.png"
-    },
-    {
         "location_name": "HARBOUR CAFE FETHIYE",
         "rating": "4.5",
         "comment_count": "(13)",
@@ -4665,76 +4595,6 @@
         "image_id": "ChIJTVzwm2tsvhQRQ_TQMODS6CM.png"
     },
     {
-        "location_name": "Bitez",
-        "rating": "",
-        "comment_count": "",
-        "tag1": "Attraction",
-        "tag2": "Tourism",
-        "tag3": "Sightseeing",
-        "adress": "48470 Bodrum/Muğla, Türkiye•Tips and more reviews for Bitez",
-        "country": "Turkey",
-        "city": "Muğla",
-        "about": "Bitez is a notable location in Turkey, known for its unique features and cultural significance.",
-        "phone_number": "",
-        "website": "https://wanderlog.com/place/details/416130/bitez",
-        "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1080&photoreference=AelY_CvX_BfAv4FugYtGq6QO6Ub6A978WYsEFZO-yztkxd1Wv-nGPCHMuPszQVEA64tcds0BXupElPHE_ufCUYiZ7SNL2Sz1cLsHmEUD6ikdQ0t0fJEQD-UUJ0uhNqlNFSsfsUpF8sTLrgJoS7_0lx5TVcjw5k5U6NipqJcAXAzutULjd-hK&key=AIzaSyCE5YFqFaooJAn9WJSrqnojH_6kCCOzwts",
-        "place_id": "ChIJ4ZB-Pp9tvhQRhLcfgeJ9q2w",
-        "geometry": {
-            "location": {
-                "lat": -34.5076579,
-                "lng": -58.47917409999999
-            },
-            "viewport": {
-                "northeast": {
-                    "lat": -34.50650727010727,
-                    "lng": -58.47768562010727
-                },
-                "southwest": {
-                    "lat": -34.50920692989272,
-                    "lng": -58.48038527989272
-                }
-            }
-        },
-        "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
-        "name": "Oficinas Undefined",
-        "image_id": "ChIJ4ZB-Pp9tvhQRhLcfgeJ9q2w.png"
-    },
-    {
-        "location_name": "Gümbet",
-        "rating": "",
-        "comment_count": "",
-        "tag1": "Attraction",
-        "tag2": "Tourism",
-        "tag3": "Sightseeing",
-        "adress": "48400 Bodrum/Muğla, Türkiye•Tips and more reviews for Gümbet",
-        "country": "Turkey",
-        "city": "Muğla",
-        "about": "Gümbet is a notable location in Turkey, known for its unique features and cultural significance.",
-        "phone_number": "",
-        "website": "https://wanderlog.com/place/details/918136/gmbet",
-        "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1080&photoreference=AelY_CukQ9JUsHi5mzsIubR2g4luVIen43c4NTpfDJ8q5Ye5YSR9LLGMuQ1p5bCEV4p9FUiee3KSbdSSgZHs-inQZvRlwmzm56_GFYIdYyg9K_hLgIMb5h5FRa6JuvhO70ljUYY8Q5g5hJVs2PWZCLvEbIOwTS1alUCB436cWoiJBGylHv0m&key=AIzaSyCE5YFqFaooJAn9WJSrqnojH_6kCCOzwts",
-        "place_id": "ChIJ_7h22qhtvhQRTKdXKxAxBfA",
-        "geometry": {
-            "location": {
-                "lat": -34.5076579,
-                "lng": -58.47917409999999
-            },
-            "viewport": {
-                "northeast": {
-                    "lat": -34.50650727010727,
-                    "lng": -58.47768562010727
-                },
-                "southwest": {
-                    "lat": -34.50920692989272,
-                    "lng": -58.48038527989272
-                }
-            }
-        },
-        "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
-        "name": "Oficinas Undefined",
-        "image_id": "ChIJ_7h22qhtvhQRTKdXKxAxBfA.png"
-    },
-    {
         "location_name": "Gümbet Beach",
         "rating": "4.0",
         "comment_count": "(3762)",
@@ -5257,41 +5117,6 @@
         "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
         "name": "Oficinas Undefined",
         "image_id": "ChIJCXgWYk9nKhUR3eUkpO_MFdw.png"
-    },
-    {
-        "location_name": "Leleg",
-        "rating": "",
-        "comment_count": "",
-        "tag1": "Boat club",
-        "tag2": "Tourism",
-        "tag3": "Sightseeing",
-        "adress": "Tepecik, Neyzen Tevfik Cd., 48890 Bodrum/Muğla, Türkiye•+90 534 870 70 70•Tips and more reviews for Leleg",
-        "country": "Turkey",
-        "city": "Muğla",
-        "about": "Leleg, the ancient people of the Bodrum Peninsula, have left behind a fascinating trail that has been transformed into a great hiking route. The Leleg Trail offers an opportunity to explore the path used by these early settlers and can be completed in five days or broken down into shorter day trips. Additionally, hikers can also discover other ancient trails in Bodrum such as the Karia Trail, which boasts impressive ancient ruins and stunning natural scenery stretching from Mazi to Torba.",
-        "phone_number": "",
-        "website": "tel:+90-534-870-70-70",
-        "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1080&photoreference=AelY_CtgOHoUicrt_MGx3WHqAQz1VtdaN3Ot2hhjFx1KWqsyyOgdansHY3y7Dx4BbfTjE0tliP6HfTkTOy5QN5dAsLCyeDJGLPFtTyjplUrhMKOg6BTAS2jgvvQNnFmDFAKOx34A74jKvjOV7qvFElfnvdYhhPVmrgUewDplnp7lExoE4WO7&key=AIzaSyCE5YFqFaooJAn9WJSrqnojH_6kCCOzwts",
-        "place_id": "ChIJGwrI5m1zvhQR4xRDlKzwbIg",
-        "geometry": {
-            "location": {
-                "lat": -34.5076579,
-                "lng": -58.47917409999999
-            },
-            "viewport": {
-                "northeast": {
-                    "lat": -34.50650727010727,
-                    "lng": -58.47768562010727
-                },
-                "southwest": {
-                    "lat": -34.50920692989272,
-                    "lng": -58.48038527989272
-                }
-            }
-        },
-        "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
-        "name": "Oficinas Undefined",
-        "image_id": "ChIJGwrI5m1zvhQR4xRDlKzwbIg.png"
     },
     {
         "location_name": "ANNALIVIA RESTAURANT GUMBET",
@@ -6970,76 +6795,6 @@
         "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
         "name": "Oficinas Undefined",
         "image_id": "ChIJl0D0VUThMRURLtIZ85NVevs.png"
-    },
-    {
-        "location_name": "Natural",
-        "rating": "",
-        "comment_count": "",
-        "tag1": "Cosmetics store",
-        "tag2": "Tourism",
-        "tag3": "Sightseeing",
-        "adress": "Zeytinli, 79108. Sk. No:41, 27500 Şehitkamil/Gaziantep, Türkiye•Tips and more reviews for Natural",
-        "country": "Turkey",
-        "city": "Gaziantep",
-        "about": "Gaziantep is not only famous for its pistachios but also for its natural attractions. One of the must-visit places is Halfeti, also known as Eski Halfeti, which lost much of its traditional Ottoman architecture due to the Birecik Dam opening in 2000. However, it remains a popular day trip destination where visitors can enjoy boat rides offered by local villagers.",
-        "phone_number": "",
-        "website": "https://wanderlog.com/place/details/10589497/natural",
-        "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1080&photoreference=AelY_Csr9R_VTx_7OWePWuswHy3FpA0e9lEfDB7VAlF6NFhbQ45rCALn5F10R4I-GeCD89LaUfJdI8JRfqFNtzZP0I97CQ5KZn3nM3CPCQ3wX8gbLo0XrdLSN-HWaI0ie45vFYP9OTYU1kJinKPf6_e2Rqmi7x5cNOiPvWeGxgzu0b1yF7Uk&key=AIzaSyCE5YFqFaooJAn9WJSrqnojH_6kCCOzwts",
-        "place_id": "ChIJT7KvX15nKhUREE-fU6P7m2o",
-        "geometry": {
-            "location": {
-                "lat": -34.5076579,
-                "lng": -58.47917409999999
-            },
-            "viewport": {
-                "northeast": {
-                    "lat": -34.50650727010727,
-                    "lng": -58.47768562010727
-                },
-                "southwest": {
-                    "lat": -34.50920692989272,
-                    "lng": -58.48038527989272
-                }
-            }
-        },
-        "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
-        "name": "Oficinas Undefined",
-        "image_id": "ChIJT7KvX15nKhUREE-fU6P7m2o.png"
-    },
-    {
-        "location_name": "ROSE",
-        "rating": "",
-        "comment_count": "",
-        "tag1": "Cosmetics store",
-        "tag2": "Tourism",
-        "tag3": "Sightseeing",
-        "adress": "Dülükbaba, Eski Dülük Cd. No:23, 27500 Şehitkamil/Gaziantep, Türkiye•Tips and more reviews for ROSE",
-        "country": "Turkey",
-        "city": "Gaziantep",
-        "about": "ROSE, also known as Gulludere Vadisi or Rose Valley, offers a network of trails suitable for walkers of all levels. The area is renowned for its stunning fairy-chimney formations and provides easy access to captivating natural beauty.",
-        "phone_number": "",
-        "website": "https://wanderlog.com/place/details/10589500/rose",
-        "image": "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1080&photoreference=AelY_CtHCO9gy3Z1ai69EHGk7lmfKT2Er9GCGHejVGvV4vmPHJiXds4tIXZPaQr30FT3rhr8mcngoFTN6qHHeduNFH_IbiY26EckXMqLNQTA2FOC_vt3T1d7IuTIJFtRhSFu-zC2PNX9DoSWF_bymwcmC4vRsLF2LtbNDPOKR-Scm3cWUVsk&key=AIzaSyCE5YFqFaooJAn9WJSrqnojH_6kCCOzwts",
-        "place_id": "ChIJJ7Ya3KNnKhURd8ALsvQtQS4",
-        "geometry": {
-            "location": {
-                "lat": -34.5076579,
-                "lng": -58.47917409999999
-            },
-            "viewport": {
-                "northeast": {
-                    "lat": -34.50650727010727,
-                    "lng": -58.47768562010727
-                },
-                "southwest": {
-                    "lat": -34.50920692989272,
-                    "lng": -58.48038527989272
-                }
-            }
-        },
-        "formatted_address": "Av. del Libertador 2451, B1636 Olivos, Provincia de Buenos Aires, Arjantin",
-        "name": "Oficinas Undefined",
-        "image_id": "ChIJJ7Ya3KNnKhURd8ALsvQtQS4.png"
     },
     {
         "location_name": "Gaziantep Castle",
@@ -15247,7 +15002,7 @@
         "adress": "Alicante, Spain",
         "country": "Spain",
         "city": "Alicante",
-        "rating": "",
+        "rating": "4.5",
         "comment_count": "",
         "tag1": "Attraction",
         "tag2": "Tourism",
