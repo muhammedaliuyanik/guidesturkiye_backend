@@ -86,39 +86,47 @@ def get_locations_by_city():
 def get_recommendation():
     destination_city = saved_cities["destination_city"]
     if destination_city:
-        # Burada destination_city'yi kullanarak önerileri filtreleyebilir veya başka işlemler yapabilirsiniz
-        if not destination_city:
-            return jsonify({"message": "destination_city not set"}), 400
-
+        # destination_city'nin set edilip edilmediğini kontrol etmeye gerek yok, çünkü zaten if bloğunda kontrol ettik.
+        
         # İstekten gelen JSON verisini alın
         request_data = request.json
         liked_location_ids = request_data.get('liked_location_ids', [])
         app.logger.info(f"Received liked_location_ids: {liked_location_ids}")
 
-        if liked_data.empty:
-            app.logger.error("No liked locations found.")
-            return jsonify({"message": "No liked locations found"}), 200
-
-        if city_data.empty:
-            app.logger.error("No locations found in the destination city.")
-            return jsonify({"message": "No locations found in the destination city"}), 200
+        # liked_data ve city_data değişkenlerini başlatıyoruz #1
+        liked_data = pd.DataFrame()  # Boş bir DataFrame ile başlatıyoruz
+        city_data = pd.DataFrame()   # Boş bir DataFrame ile başlatıyoruz
 
         # liked_location_ids'yi 'places.json' dosyasındaki verilerle karşılaştırın
         liked_data = data[data['place_id'].isin(liked_location_ids)]
 
+        # Eğer liked_data boşsa, hata mesajı döndürür #2
+        if liked_data.empty:
+            app.logger.error("No liked locations found.")
+            return jsonify({"message": "No liked locations found"}), 200
+
         # Şehir adına göre filtreleme yapın
         city_data = data[data['city'].str.lower() == destination_city.lower()]
 
+        # Eğer city_data boşsa, hata mesajı döndürür #2
+        if city_data.empty:
+            app.logger.error("No locations found in the destination city.")
+            return jsonify({"message": "No locations found in the destination city"}), 200
+
+        # liked_data ve city_data boşsa boş bir liste döndürür
         if liked_data.empty or city_data.empty:
             return jsonify([]), 200
 
+        # Benzerlik hesaplamaları için verileri hazırlıyoruz #3
         liked_features = np.vstack([combined_features_dict.get(place_id) for place_id in liked_data['place_id'] if combined_features_dict.get(place_id) is not None])
         city_features = np.vstack([combined_features_dict.get(place_id) for place_id in city_data['place_id'] if combined_features_dict.get(place_id) is not None])
 
+        # Eğer feature setleri boşsa hata mesajı döndürür #4
         if liked_features.size == 0 or city_features.size == 0:
             app.logger.error("No valid features found for similarity calculation.")
             return jsonify({"message": "No valid features found"}), 200
 
+        # Benzerlikleri hesaplayın
         similarities = cosine_similarity(liked_features, city_features)
         similarity_scores = similarities.sum(axis=0)
 
@@ -129,12 +137,13 @@ def get_recommendation():
         # En iyi 15 öneri arasından rastgele 5 tanesini seçin
         recommended_indices = np.random.choice(top_n_indices, size=5, replace=False)
 
-        # Önerilen lokasyonlar
+        # Önerilen lokasyonları döndür
         recommended_locations = city_data.iloc[recommended_indices]
         return jsonify(recommended_locations.to_dict(orient='records'))
-        #TEST return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
     else:
+        # destination_city set edilmemişse hata mesajı döndür
         return jsonify({"message": "destination_city not set"}), 400
+
 
 
 if __name__ == "__main__":
