@@ -86,37 +86,42 @@ def get_recommendation():
         request_data = request.json
         liked_location_ids = request_data.get('liked_location_ids', [])
         app.logger.info(f"Received liked_location_ids: {liked_location_ids}")
+        
         # liked_location_ids'yi 'places.json' dosyasındaki verilerle karşılaştırın
         liked_data = data[data['place_id'].isin(liked_location_ids)]
+        
         # Şehir adına göre filtreleme yapın
         city_data = data[data['city'].str.lower() == destination_city.lower()]
+        
         if liked_data.empty or city_data.empty:
             return jsonify([]), 200
+        
         # Benzerlik hesaplamaları
         liked_features = np.vstack([combined_features_dict[place_id] for place_id in liked_data['place_id']])
         city_features = np.vstack([combined_features_dict[place_id] for place_id in city_data['place_id']])
         similarities = cosine_similarity(liked_features, city_features)
         similarity_scores = similarities.sum(axis=0)
+        
         # En çok benzeyen 15 lokasyonu alın
         top_n = 15
         top_n_indices = np.argsort(similarity_scores)[-top_n:]
+        
         # En iyi 15 öneri arasından rastgele 5 tanesini seçin
         recommended_indices = np.random.choice(top_n_indices, size=5, replace=False)
 
+        # Önerilen lokasyonlar
+        recommended_locations = city_data.iloc[recommended_indices].to_dict(orient='records')
+
         # destination_city'e göre places.json'dan rating'e göre sıralanmış veriyi al
-        filtered_places = [place for place in data if place['city'].lower() == destination_city.lower()]
+        filtered_places = data[data['city'].str.lower() == destination_city.lower()].to_dict(orient='records')
         top_rated_places = sorted(filtered_places, key=lambda x: float(x['rating']), reverse=True)
 
-        # Önerilen lokasyonlar
-        recommended_locations = city_data.iloc[recommended_indices]
         # JSON yanıtı için iki listeyi birleştirin
         response = {
             "recommended_locations": recommended_locations,
             "top_rated_places": top_rated_places[:5]  # En yüksek 5 yer
         }
-        return jsonify(response.to_dict(orient='records'))
-    
-        #TEST return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
+        return jsonify(response)
     else:
         return jsonify({"message": "destination_city not set"}), 400
 
