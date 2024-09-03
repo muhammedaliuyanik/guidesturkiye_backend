@@ -131,8 +131,9 @@ def get_recommendation():
 
         # Önerilen lokasyonlar
         recommended_locations = city_data.iloc[recommended_indices]
-        return jsonify(recommended_locations.to_dict(orient='records'))
-        #TEST return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
+        #return jsonify(recommended_locations.to_dict(orient='records'))
+        return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
+
     else:
         return jsonify({"message": "destination_city not set"}), 400
 
