@@ -107,14 +107,13 @@ def get_recommendation():
         filtered_places = [place for place in data if place['city'].lower() == destination_city.lower()]
         top_rated_places = sorted(filtered_places, key=lambda x: float(x['rating']), reverse=True)
 
+        # Önerilen lokasyonlar
+        recommended_locations = city_data.iloc[recommended_indices]
         # JSON yanıtı için iki listeyi birleştirin
         response = {
             "recommended_locations": recommended_locations,
             "top_rated_places": top_rated_places[:5]  # En yüksek 5 yer
         }
-
-        # Önerilen lokasyonlar
-        recommended_locations = city_data.iloc[recommended_indices]
         return jsonify(response)
     
         #TEST return jsonify({"message": "Test successful", "liked_location_ids": liked_location_ids})
