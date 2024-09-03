@@ -18489,40 +18489,6 @@
         "image_id": "ChIJWczvZl-RwxQRCOsxec7V0GE.png"
     },
     {
-        "location_name": "Yivli minare",
-        "rating": "5.0",
-        "comment_count": "(2)",
-        "tag1": "Place of worship",
-        "tag2": "Tourism",
-        "tag3": "Sightseeing",
-        "adress": "Yenigün, 07310 Muratpaşa/Antalya, Türkiye•Tips and more reviews for Yivli minare",
-        "country": "Turkey",
-        "city": "Antalya",
-        "about": "Yivli Minare, also known as the Fluted Minaret, stands as a prominent symbol in Antalya's old town quarter. Constructed by the Seljuk sultan Alaeddin Keykubad, this historic monument serves as a reliable compass for orientation. With its unique fluted design, it is an iconic landmark that offers insight into the region's rich history and architectural heritage.",
-        "phone_number": "",
-        "website": "https://wanderlog.com/place/details/9714839/yivli-minare",
-        "place_id": "ChIJbfZlcwSQwxQROK2m_tlcLzg",
-        "geometry": {
-            "location": {
-                "lat": 36.8865472,
-                "lng": 30.7045007
-            },
-            "viewport": {
-                "northeast": {
-                    "lat": 36.88783882989272,
-                    "lng": 30.70572992989272
-                },
-                "southwest": {
-                    "lat": 36.88513917010728,
-                    "lng": 30.70303027010728
-                }
-            }
-        },
-        "formatted_address": "Selçuk, Selçuk Mah, 07100 Muratpaşa/Antalya, Türkiye",
-        "name": "Yivliminare Cami",
-        "image_id": "ChIJbfZlcwSQwxQROK2m_tlcLzg.png"
-    },
-    {
         "location_name": "Republic Square",
         "rating": "4.6",
         "comment_count": "(4218)",

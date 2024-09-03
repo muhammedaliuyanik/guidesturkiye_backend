@@ -5,6 +5,8 @@ import os
 import pickle
 import numpy as np
 import logging
+from sklearn.metrics import precision_score, recall_score, f1_score
+
 
 app = Flask(__name__)
 
@@ -108,6 +110,7 @@ def get_recommendation():
         return jsonify(response)
     else:
         return jsonify({"message": "destination_city not set"}), 400
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
