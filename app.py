@@ -87,16 +87,21 @@ def get_recommendation():
     destination_city = saved_cities["destination_city"]
     if destination_city:
         # Burada destination_city'yi kullanarak önerileri filtreleyebilir veya başka işlemler yapabilirsiniz
-        """
-        Returns a list of recommended locations based on the user's liked locations.
-        Expects a JSON payload with 'liked_location_ids' and 'city_name'.
-        """
-        
+        if not destination_city:
+            return jsonify({"message": "destination_city not set"}), 400
+
         # İstekten gelen JSON verisini alın
         request_data = request.json
         liked_location_ids = request_data.get('liked_location_ids', [])
         app.logger.info(f"Received liked_location_ids: {liked_location_ids}")
 
+        if liked_data.empty:
+            app.logger.error("No liked locations found.")
+            return jsonify({"message": "No liked locations found"}), 200
+
+        if city_data.empty:
+            app.logger.error("No locations found in the destination city.")
+            return jsonify({"message": "No locations found in the destination city"}), 200
 
         # liked_location_ids'yi 'places.json' dosyasındaki verilerle karşılaştırın
         liked_data = data[data['place_id'].isin(liked_location_ids)]
@@ -107,9 +112,12 @@ def get_recommendation():
         if liked_data.empty or city_data.empty:
             return jsonify([]), 200
 
-        # Benzerlik hesaplamaları
-        liked_features = np.vstack([combined_features_dict[place_id] for place_id in liked_data['place_id']])
-        city_features = np.vstack([combined_features_dict[place_id] for place_id in city_data['place_id']])
+        liked_features = np.vstack([combined_features_dict.get(place_id) for place_id in liked_data['place_id'] if combined_features_dict.get(place_id) is not None])
+        city_features = np.vstack([combined_features_dict.get(place_id) for place_id in city_data['place_id'] if combined_features_dict.get(place_id) is not None])
+
+        if liked_features.size == 0 or city_features.size == 0:
+            app.logger.error("No valid features found for similarity calculation.")
+            return jsonify({"message": "No valid features found"}), 200
 
         similarities = cosine_similarity(liked_features, city_features)
         similarity_scores = similarities.sum(axis=0)
@@ -131,4 +139,4 @@ def get_recommendation():
 
 if __name__ == "__main__":
     # Update the parameters with your certificate and key file paths
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
