@@ -140,7 +140,7 @@ def get_recommendation():
         # Önerilen lokasyonları dictionary formatına dönüştür
         recommended_locations = city_data.iloc[recommended_indices].to_dict(orient='records')
 
-        filtered_places = [place for place in places if place['city'].lower() == destination_city.lower()]
+        filtered_places = [place for place in data if place['city'].lower() == destination_city.lower()]
         top_rated_places = sorted(filtered_places, key=lambda x: float(x['rating']), reverse=True)
 
         # JSON yanıtı için iki listeyi birleştirin
