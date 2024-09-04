@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, abort, send_from_directory
+from flask import Flask, jsonify, request, abort, send_from_directory, url_for
 from sklearn.neighbors import NearestNeighbors
 import pandas as pd
 import os
@@ -7,7 +7,10 @@ import numpy as np
 import logging
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from flask import Flask, jsonify, request
+from sklearn.metrics.pairwise import cosine_similarity
+from transformers import BertTokenizer, BertModel
+import torch
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 
@@ -25,6 +28,9 @@ try:
         combined_features_dict = pickle.load(f)
 except FileNotFoundError:
     combined_features_dict = {}
+    
+# Define the directory where images are stored
+image_directory = os.path.join(os.getcwd(), 'images')
 
 # Extract textual data (tags + about) and vectorize it
 def combine_textual_data(row):
@@ -47,18 +53,22 @@ def test():
 @app.route('/images/<place_id>', methods=['GET'])
 def get_image(place_id):
     try:
-        image_file = f"{place_id}.png"
+        # Resim dosya yolunu oluştur
+        image_file = f"{place_id}.png"  # image_file burada sadece dosya adını içerir
         image_path = os.path.join(image_directory, image_file)
         
+        # Dosyanın var olup olmadığını kontrol et
         if not os.path.isfile(image_path):
             app.logger.error(f"Image not found at path {image_path}")
-            abort(404)
+            abort(404)  # Eğer bulunmazsa, 404 hatası döndür
         
+        # Resim dosyasını gönder
         return send_from_directory(image_directory, image_file)
     
     except Exception as e:
         app.logger.error(f"Error retrieving image: {e}")
-        abort(500)
+        abort(500)  # Internal server error if something goes wrong
+#Kullanıcının beğendiği Lokasyonları seçtiği ekran için bilgi dönüşü.
 
 @app.route('/getLocations', methods=['GET'])
 def get_locations():
