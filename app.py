@@ -5,8 +5,9 @@ import os
 import pickle
 import numpy as np
 import logging
-from sklearn.metrics import precision_score, recall_score, f1_score
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -17,25 +18,27 @@ saved_cities = {"current_city": None, "destination_city": None}
 data_path = os.path.join(os.getcwd(), 'data', 'places.json')
 data = pd.read_json(data_path)
 
-# Load or initialize features
-features_file = os.path.join(os.getcwd(), 'data', 'location_features.pkl')
+# Load or initialize visual features from VGG16
+features_file = os.path.join(os.getcwd(), 'data', 'location_features_densenet.pkl')
 try:
     with open(features_file, 'rb') as f:
         combined_features_dict = pickle.load(f)
 except FileNotFoundError:
     combined_features_dict = {}
 
-# Prepare the k-NN model
-if combined_features_dict:
-    knn = NearestNeighbors(n_neighbors=15, algorithm='auto').fit(list(combined_features_dict.values()))
-else:
-    knn = None  # Handle the case where features are not available
+# Extract textual data (tags + about) and vectorize it
+def combine_textual_data(row):
+    return f"{row['tag1']} {row['tag2']} {row['tag3']} {row['tag4']} {row['about']}"
 
-# Convert to a list of dictionaries for the API response
-locations = data.to_dict(orient='records')
+# Combine textual features for each location
+data['combined_text'] = data.apply(combine_textual_data, axis=1)
 
-# Define the directory where images are stored
-image_directory = os.path.join(os.getcwd(), 'images')
+# Text vectorizer
+vectorizer = TfidfVectorizer(stop_words='english')
+text_features = vectorizer.fit_transform(data['combined_text'])
+
+# Prepare the k-NN model for text features
+knn_text = NearestNeighbors(n_neighbors=15, metric='cosine').fit(text_features)
 
 @app.route('/test', methods=['GET'])    
 def test():
@@ -76,6 +79,7 @@ def get_locations_by_city():
     saved_cities["destination_city"] = destination_city
     
     return jsonify({"message": "Cities received successfully", "current_city": current_city, "destination_city": destination_city})
+#a
 
 @app.route('/getRecommendation', methods=['POST'])
 def get_recommendation():
@@ -85,27 +89,69 @@ def get_recommendation():
         liked_location_ids = request_data.get('liked_location_ids', [])
         app.logger.info(f"Received liked_location_ids: {liked_location_ids}")
         
+        # Liked and city data
         liked_data = data[data['place_id'].isin(liked_location_ids)]
         city_data = data[data['city'].str.lower() == destination_city.lower()]
         
         if liked_data.empty or city_data.empty:
             return jsonify([]), 200
+
+        # 1. Dinamik olarak kullanıcı tarafından beğenilen etiketleri topla
+        liked_tags = liked_data[['tag1', 'tag2', 'tag3', 'tag4']].values.flatten()
+        liked_tags = [tag for tag in liked_tags if pd.notnull(tag)]  # Boş tagleri temizle
+
+        # 2. Şehirdeki yerlerin etiketlerini kontrol ederek uygun olanları filtrele
+        def filter_by_tags(row):
+            place_tags = [row[col] for col in ['tag1', 'tag2', 'tag3', 'tag4'] if pd.notnull(row[col])]
+            return any(tag in liked_tags for tag in place_tags)
+
+        filtered_city_data = city_data[city_data.apply(filter_by_tags, axis=1)]
         
-        liked_features = np.array([combined_features_dict[place_id] for place_id in liked_data['place_id']])
-        city_features = np.array([combined_features_dict[place_id] for place_id in city_data['place_id']])
-        
-        knn.fit(city_features)
-        distances, indices = knn.kneighbors(liked_features, n_neighbors=15)
-        
-        recommended_indices = np.unique(indices.flatten())
-        recommended_locations = city_data.iloc[recommended_indices].to_dict(orient='records')
-        
-        filtered_places = data[data['city'].str.lower() == destination_city.lower()].to_dict(orient='records')
-        top_rated_places = sorted(filtered_places, key=lambda x: float(x['rating']), reverse=True)
-        
+        if filtered_city_data.empty:
+            return jsonify({"message": "No relevant locations found based on tags."}), 200
+
+        # 3. DenseNet Görsel Özellikleri
+        liked_visual_features = np.array([combined_features_dict.get(place_id, np.zeros(2048)) for place_id in liked_data['place_id']])
+        city_visual_features = np.array([combined_features_dict.get(place_id, np.zeros(2048)) for place_id in filtered_city_data['place_id']])
+
+        if len(liked_visual_features) == 0 or len(city_visual_features) == 0:
+            app.logger.error("No valid visual features found for some locations.")
+            return jsonify({"message": "No valid visual features found for some locations."}), 200
+
+        # KNN görsel modelini eğit ve görsel benzerlik önerilerini al
+        knn_visual = NearestNeighbors(n_neighbors=15, metric='cosine').fit(city_visual_features)
+        _, visual_indices = knn_visual.kneighbors(liked_visual_features, n_neighbors=15)
+
+        # 4. Metinsel Özellikler (Etiket + About)
+        liked_text_features = vectorizer.transform(liked_data['combined_text'])
+        city_text_features = vectorizer.transform(filtered_city_data['combined_text'])
+
+        # KNN metinsel modelini eğit ve metinsel benzerlik önerilerini al
+        knn_text = NearestNeighbors(n_neighbors=15, metric='cosine').fit(city_text_features)
+        _, text_indices = knn_text.kneighbors(liked_text_features, n_neighbors=15)
+
+        # 5. Metinsel ve görsel özelliklerin birleştirilmesi
+        liked_combined_features = np.hstack((liked_visual_features, liked_text_features.toarray()))
+        city_combined_features = np.hstack((city_visual_features, city_text_features.toarray()))
+
+        # Birleştirilmiş özelliklerle KNN modelini eğit ve önerileri al
+        knn_combined = NearestNeighbors(n_neighbors=15, metric='cosine').fit(city_combined_features)
+        _, combined_indices = knn_combined.kneighbors(liked_combined_features, n_neighbors=15)
+
+        # Görsel ve metinsel önerileri birleştir
+        combined_indices = np.unique(combined_indices.flatten())
+        valid_indices = [i for i in combined_indices if i < len(filtered_city_data)]
+
+        # Önerilen lokasyonları seç
+        recommended_locations = filtered_city_data.iloc[valid_indices].to_dict(orient='records')
+
+        # Şehirdeki en yüksek rating'e sahip yerleri alın
+        top_rated_places = city_data.sort_values(by='rating', ascending=False).head(5).to_dict(orient='records')
+
+        # Yanıtı oluşturun
         response = {
             "recommended_locations": recommended_locations,
-            "top_rated_places": top_rated_places[:5]
+            "top_rated_places": top_rated_places  # En yüksek rating'li 5 yer
         }
         return jsonify(response)
     else:

@@ -1,2 +1,3 @@
 myenv/
 images/
+data/location_features_densenet.pkl
