@@ -1,8 +1,6 @@
 # Travel Recommender System Using Machine Learning
 
 - This project is a content-based recommendation system that allows users to receive personalized travel location suggestions based on their preferences and interests.  
-- Bu proje, kullanıcıların tercih ve ilgi alanlarına göre kişiselleştirilmiş seyahat lokasyon önerileri almasını sağlayan bir içerik tabanlı öneri sistemidir.
-
 ---
 
 ## Features
@@ -45,3 +43,10 @@ cd guidesturkiye-backend
 pip install -r requirements.txt
 streamlit run src/app.py
 ```
+ ## DevOps
+- CI: GitHub Actions → flake8 + pytest (smoke tests) on push.
+- Container: Dockerfile for Streamlit app.
+
+### Quickstart (Docker)
+docker build -t guides-backend .
+docker run -p 8501:8501 --env-file .env guides-backend
